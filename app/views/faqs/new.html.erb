@@ -1,0 +1,9 @@
+<h1>Sign up</h1>
+
+<%= form_for(@faq) do |f| %>
+  <%= render 'shared/error_messages', :object => f.object %>
+  <%= render 'fields', :f => f %>
+  <div class="actions">
+    <%= f.submit 'Create new FAQ' %>
+  </div>  
+<% end %>
