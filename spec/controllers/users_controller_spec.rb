@@ -5,19 +5,19 @@ describe UsersController do
 
   describe "GET 'index'" do
 
-    describe "for non-signed-in users" do
-      it "should deny access" do
+    describe 'for non-signed-in users' do
+      it 'should deny access' do
         get :index
         response.should redirect_to(signin_path)
       end
     end
     
-    describe "for signed-in-users" do
+    describe 'for signed-in-users' do
 
       before(:each) do
         @user = test_sign_in(Factory(:user))
-        second = Factory(:user, :name => "Bob", :email => "another@example.com")
-        third  = Factory(:user, :name => "Ben", :email => "another@example.net")
+        second = Factory(:user, :name => 'Bob', :email => 'another@example.com')
+        third  = Factory(:user, :name => 'Ben', :email => 'another@example.net')
         
         30.times do
           Factory(:user, :name => Factory.next(:name),
@@ -25,46 +25,42 @@ describe UsersController do
         end
       end
       
-      it "should be successful" do
+      it 'should be successful' do
         get :index
         response.should be_success
       end
       
-      it "should have the right title" do
+      it 'should have the right title' do
         get :index
-        response.should have_selector('title', :content => "All users")
+        response.should have_selector('title', :content => 'All users')
       end
       
-      it "should have an element for each user" do
+      it 'should have an element for each user' do
         get :index
         User.paginate(:page => 1).each do |user|
           response.should have_selector('li', :content => user.name)
         end
       end
       
-      it "should paginate users" do
+      it 'should paginate users' do
         get :index
         response.should have_selector('div.pagination')
-        response.should have_selector('span.disabled', :content => "Previous")
-        response.should have_selector('a', :href => "/users?page=2",
-                                           :content => "2")
-        response.should have_selector('a', :href => "/users?page=2",
-                                           :content => "Next")
+        response.should have_selector('span.disabled', :content => 'Previous')
+        response.should have_selector('a', :href => '/users?page=2', :content => '2')
+        response.should have_selector('a', :href => '/users?page=2', :content => 'Next')
       end
-      
-      it "should have delete links for admins" do
+
+      it 'should have delete links for admins' do
         @user.toggle!(:admin)
         other_user = User.all.second
         get :index
-        response.should have_selector('a', :href => user_path(other_user),
-                                           :content => "delete")
+        response.should have_selector('a', :href => user_path(other_user), :content => 'delete')
       end
 
-      it "should not have delete links for non-admins" do
+      it 'should not have delete links for non-admins' do
         other_user = User.all.second
         get :index
-        response.should_not have_selector('a', :href => user_path(other_user),
-                                               :content => "delete")
+        response.should_not have_selector('a', :href => user_path(other_user), :content => 'delete')
       end
     end
   end
@@ -75,7 +71,7 @@ describe UsersController do
       @user = Factory(:user)
     end
   
-    it "should be successful" do
+    it 'should be successful' do
       get :show, :id => @user
       response.should be_success
     end
