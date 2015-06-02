@@ -2,6 +2,6 @@
 applications:
 - name: faq
   path: .
-  command: bundle exec rake db:migrate && bundle exec rails s -p $PORT
+  command: bundle exec rake db:migrate db:seed && bundle exec rails s -p $PORT
   services:
     - postgres
